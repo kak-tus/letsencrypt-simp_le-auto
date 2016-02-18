@@ -67,7 +67,7 @@ Container support multi-domain certificate generation. You need to list comma se
 DOMAIN=example.com,www.example.com
 ```
 
-## Restart multiplie containers
+## Restart multiple containers
 
 Comma separated list.
 
