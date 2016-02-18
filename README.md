@@ -1,4 +1,4 @@
-# Let's encrypt simpl_le docker container with automated certificates renewal
+# Let's encrypt simp_le docker container with automated certificates renewal
 
 Based on [Let's Encrypt](https://letsencrypt.org), [simp_le](https://github.com/kuba/simp_le), [simp_le Docker container](https://github.com/m3adow/docker-letsencrypt-simp_le).
 
