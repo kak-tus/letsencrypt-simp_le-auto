@@ -34,7 +34,7 @@ proxy_pass http://simp_le.service.consul:9002;
 ## Run
 
 ```
-docker run -itd -e "EMAIL=mail@example.com" -e "DOMAIN=example.com" -e "RESTART=nginx" -v /var/run/docker.sock:/var/run/docker.sock -v /etc/simp_le/:/etc/simp_le/ 94ca18606bc4
+docker run -itd -e "EMAIL=mail@example.com" -e "DOMAIN=example.com" -e "RESTART=nginx" -v /var/run/docker.sock:/var/run/docker.sock -v /etc/simp_le/:/etc/simp_le/ kaktuss/letsencrypt-simp_le-auto
 ```
 
 Here
