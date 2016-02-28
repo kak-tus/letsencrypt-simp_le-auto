@@ -16,7 +16,6 @@ server {
     proxy_pass http://127.0.0.1:9002;
   }
 }
-
 ```
 
 In multi-frontend environment, you need to specify exactly ip or host of docker server with container
@@ -31,19 +30,30 @@ If you are using consul DNS it is simple
 proxy_pass http://simp_le.service.consul:9002;
 ```
 
+## Configuration
+
+Configuration - is a set of files (one config file - one certificate) like
+
+```
+example.com,www.example.com
+nginx1,nginx2
+```
+
+First line - comma separated domains list.
+
+Second line - comma separated conatainers list to reload, if certificates was renewed. May be empty.
+
+Files must be saved with any names in /etc/simp_le-auto.d/ (or any other location, mounted with -v to /etc/simp_le-auto.d/ in container).
+
 ## Run
 
 ```
-docker run -itd -e "EMAIL=mail@example.com" -e "DOMAIN=example.com" -e "RESTART=nginx" -v /var/run/docker.sock:/var/run/docker.sock -v /etc/simp_le/:/etc/simp_le/ kaktuss/letsencrypt-simp_le-auto
+docker run -itd -e "EMAIL=mail@example.com" -v /var/run/docker.sock:/var/run/docker.sock -v /etc/simp_le/:/etc/simp_le/ -v /etc/simp_le-auto.d/:/etc/simp_le-auto.d/ kaktuss/letsencrypt-simp_le-auto
 ```
 
 Here
 
 EMAIL environment variable is Let's Encrypt account email.
-
-DOMAIN is domain for which you will be generate certificate.
-
-RESTART is a container name, which you want to restart if certificates will be regenerated.
 
 Certificates will be saved in /etc/simp_le/ with domain-specific names.
 
@@ -59,33 +69,3 @@ LISTEN_PORT=9002 - port, in which simp_le container will be listen verification 
 
 SERVER_NAME=simp_le - name of container, to proxy_pass trow nginx, if you are using consul DNS.
 
-## Multi-domain certificate generation
-
-Container support multi-domain certificate generation. You need to list comma separated domain names.
-
-```
-DOMAIN=example.com,www.example.com
-```
-
-## Restart multiple containers
-
-Comma separated list.
-
-```
-RESTART=nginx1,nginx2
-```
-
-
-## Multi-certificate generation
-
-You can generate different certificates for different domains. ";" separated list.
-
-```
-DOMAIN=example.com,www.example.com;example2.com
-```
-
-Also you can use different containers to restart for different domain names. ";" separated list.
-
-```
-RESTART=nginx1,nginx2;nginx_for_example2.com
-```

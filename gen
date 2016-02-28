@@ -1,28 +1,22 @@
 #!/bin/bash
 
-DOMAIN_ARR=$(echo $DOMAIN | tr ";" "\n")
+FILES=$(ls /etc/simp_le-auto.d/)
 
 COUNTER=0
-for i in $DOMAIN_ARR
+for i in $FILES
 do
-  NAME_ARR[$COUNTER]=$(echo $i | tr "," "\n" | head -1 )
+  readarray CONTENT < /etc/simp_le-auto.d/$i
+  NAME_ARR[$COUNTER]=$(echo ${CONTENT[0]} | tr "," "\n" | head -1 )
+  CONTAINER_ARR[$COUNTER]=$(echo ${CONTENT[1]} | tr "," " ")
 
   PARAMS=""
-  for j in $(echo $i | tr "," "\n")
+  for j in $(echo ${CONTENT[0]} | tr "," "\n")
   do
     PARAMS="$PARAMS -d $j"
   done
 
   PARAM_ARR[$COUNTER]="$PARAMS"
 
-  let COUNTER+=1
-done
-
-RESTART_ARR=$(echo $RESTART | tr ";" "\n")
-COUNTER=0
-for i in $RESTART_ARR
-do
-  CONTAINER_ARR[$COUNTER]=$(echo $i | tr "," " ")
   let COUNTER+=1
 done
 
@@ -51,4 +45,6 @@ do
     # to limit request rate
     sleep 60
   fi
+
+  docker rm $SERVER_NAME
 done

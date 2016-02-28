@@ -1,9 +1,7 @@
 FROM alpine
 MAINTAINER kaktus
 
-ENV DOMAIN=
 ENV EMAIL=
-ENV RESTART=
 
 ENV DOCKER_VERSION=latest
 ENV CERTS_DIR=/etc/simp_le/
