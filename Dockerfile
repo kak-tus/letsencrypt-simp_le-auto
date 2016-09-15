@@ -1,5 +1,6 @@
-FROM alpine
-MAINTAINER kaktus
+FROM alpine:3.4
+
+MAINTAINER Andrey Kuzmin "kak-tus@mail.ru"
 
 ENV EMAIL=
 
