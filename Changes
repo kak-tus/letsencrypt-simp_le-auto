@@ -1,3 +1,6 @@
+0.6 2016-09-20
+  - Use official docker-in-docker image (not need to download docker)
+
 0.2 2016-02-28
   - Automated friendly configuration, no need to recreate container to add domains.
 
