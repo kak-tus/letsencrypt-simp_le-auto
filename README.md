@@ -69,3 +69,4 @@ LISTEN_PORT=9002 - port, in which simp_le container will be listen verification 
 
 SERVER_NAME=simp_le - name of container, to proxy_pass trow nginx, if you are using consul DNS.
 
+DOCKER_SIMP_LE_ARGS - you can pass any args to docker run command, that start simp_le container. As example: -e 'DOCKER_SIMP_LE_ARGS="--dns 8.8.8.8"'

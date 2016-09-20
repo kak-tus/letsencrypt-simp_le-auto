@@ -34,7 +34,7 @@ do
   mv ${CERTS_DIR}fullchain_${NAME_ARR[$i]}.pem ${CERTS_DIR}fullchain.pem
 
   docker run -v $CERTS_DIR:/certs/ --rm -p $LISTEN_PORT:80 \
-    --name $SERVER_NAME \
+    --name $SERVER_NAME $DOCKER_SIMP_LE_ARGS \
     m3adow/letsencrypt-simp_le \
     --tos_sha256 6373439b9f29d67a5cd4d18cbc7f264809342dbf21cb2ba2fc7588df987a6221 \
     --email $EMAIL \
