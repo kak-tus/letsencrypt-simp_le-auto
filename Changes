@@ -1,3 +1,6 @@
+0.10 2016-09-21
+  - Bugfix container communications at Nomad environment
+
 0.9 2016-09-21
   - Bugfix call external docker
 
