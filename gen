@@ -22,18 +22,28 @@ do
   let COUNTER+=1
 done
 
+VOLUME_NAME=$SERVER_NAME-vl
+CONTAINER_DATA_NAME=$SERVER_NAME-data
+
 for (( i=0; i<${#PARAM_ARR[@]}; i++ ))
 do
   echo "Try ${NAME_ARR[$i]}"
 
   docker $DOCKER_SIMP_LE_ARGS rm $SERVER_NAME
+  docker $DOCKER_SIMP_LE_ARGS volume rm $VOLUME_NAME
+  docker $DOCKER_SIMP_LE_ARGS rm $CONTAINER_DATA_NAME
 
   mv ${CERTS_DIR}chain_${NAME_ARR[$i]}.pem ${CERTS_DIR}chain.pem
   mv ${CERTS_DIR}cert_${NAME_ARR[$i]}.pem ${CERTS_DIR}cert.pem
   mv ${CERTS_DIR}key_${NAME_ARR[$i]}.pem ${CERTS_DIR}key.pem
   mv ${CERTS_DIR}fullchain_${NAME_ARR[$i]}.pem ${CERTS_DIR}fullchain.pem
 
-  docker $DOCKER_SIMP_LE_ARGS create -p $LISTEN_PORT:80 \
+  docker $DOCKER_SIMP_LE_ARGS volume create $VOLUME_NAME
+  docker $DOCKER_SIMP_LE_ARGS run -itd --name $CONTAINER_DATA_NAME -v $VOLUME_NAME:/certs alpine:3.4 ash
+
+  tar -cf - -C $CERTS_DIR . | docker $DOCKER_SIMP_LE_ARGS exec -i $CONTAINER_DATA_NAME tar -xf - -C /certs/
+
+  docker $DOCKER_SIMP_LE_ARGS run -v $VOLUME_NAME:/certs -p $LISTEN_PORT:80 \
     --name $SERVER_NAME $DOCKER_RUN_SIMP_LE_ARGS \
     m3adow/letsencrypt-simp_le \
     --tos_sha256 6373439b9f29d67a5cd4d18cbc7f264809342dbf21cb2ba2fc7588df987a6221 \
@@ -43,19 +53,7 @@ do
 
   STATUS=$?
 
-  docker $DOCKER_SIMP_LE_ARGS cp ${CERTS_DIR}account_key.json $SERVER_NAME:/certs/account_key.json
-  docker $DOCKER_SIMP_LE_ARGS cp ${CERTS_DIR}chain.pem $SERVER_NAME:/certs/chain.pem
-  docker $DOCKER_SIMP_LE_ARGS cp ${CERTS_DIR}cert.pem $SERVER_NAME:/certs/cert.pem
-  docker $DOCKER_SIMP_LE_ARGS cp ${CERTS_DIR}key.pem $SERVER_NAME:/certs/key.pem
-  docker $DOCKER_SIMP_LE_ARGS cp ${CERTS_DIR}fullchain.pem $SERVER_NAME:/certs/fullchain.pem
-
-  docker $DOCKER_SIMP_LE_ARGS start -i $SERVER_NAME
-
-  docker $DOCKER_SIMP_LE_ARGS cp $SERVER_NAME:/certs/account_key.json ${CERTS_DIR}account_key.json
-  docker $DOCKER_SIMP_LE_ARGS cp $SERVER_NAME:/certs/chain.pem ${CERTS_DIR}chain.pem
-  docker $DOCKER_SIMP_LE_ARGS cp $SERVER_NAME:/certs/cert.pem ${CERTS_DIR}cert.pem
-  docker $DOCKER_SIMP_LE_ARGS cp $SERVER_NAME:/certs/key.pem ${CERTS_DIR}key.pem
-  docker $DOCKER_SIMP_LE_ARGS cp $SERVER_NAME:/certs/fullchain.pem ${CERTS_DIR}fullchain.pem
+  docker $DOCKER_SIMP_LE_ARGS exec $CONTAINER_DATA_NAME tar -cf - -C /certs/ . | tar -xf - -C $CERTS_DIR
 
   mv ${CERTS_DIR}chain.pem ${CERTS_DIR}chain_${NAME_ARR[$i]}.pem
   mv ${CERTS_DIR}cert.pem ${CERTS_DIR}cert_${NAME_ARR[$i]}.pem
@@ -74,6 +72,8 @@ do
   fi
 
   docker $DOCKER_SIMP_LE_ARGS rm $SERVER_NAME
+  docker $DOCKER_SIMP_LE_ARGS volume rm $VOLUME_NAME
+  docker $DOCKER_SIMP_LE_ARGS rm $CONTAINER_DATA_NAME
 done
 
 echo 'Finish'
