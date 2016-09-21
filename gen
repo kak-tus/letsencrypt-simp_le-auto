@@ -25,6 +25,8 @@ done
 VOLUME_NAME=$SERVER_NAME-vl
 CONTAINER_DATA_NAME=$SERVER_NAME-data
 
+mkdir -p $CERTS_DIR
+
 for (( i=0; i<${#PARAM_ARR[@]}; i++ ))
 do
   echo "Try ${NAME_ARR[$i]}"
