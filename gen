@@ -49,7 +49,7 @@ do
   docker $DOCKER_SIMP_LE_ARGS cp ${CERTS_DIR}key.pem $SERVER_NAME:/certs/key.pem
   docker $DOCKER_SIMP_LE_ARGS cp ${CERTS_DIR}fullchain.pem $SERVER_NAME:/certs/fullchain.pem
 
-  docker $DOCKER_SIMP_LE_ARGS start $SERVER_NAME
+  docker $DOCKER_SIMP_LE_ARGS start -i $SERVER_NAME
 
   docker $DOCKER_SIMP_LE_ARGS cp $SERVER_NAME:/certs/account_key.json ${CERTS_DIR}account_key.json
   docker $DOCKER_SIMP_LE_ARGS cp $SERVER_NAME:/certs/chain.pem ${CERTS_DIR}chain.pem
