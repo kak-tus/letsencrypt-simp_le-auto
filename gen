@@ -31,16 +31,16 @@ for (( i=0; i<${#PARAM_ARR[@]}; i++ ))
 do
   echo "Try ${NAME_ARR[$i]}"
 
-  docker $DOCKER_SIMP_LE_ARGS rm $SERVER_NAME
+  docker $DOCKER_SIMP_LE_ARGS rm -f $SERVER_NAME
+  docker $DOCKER_SIMP_LE_ARGS rm -f $CONTAINER_DATA_NAME
   docker $DOCKER_SIMP_LE_ARGS volume rm $VOLUME_NAME
-  docker $DOCKER_SIMP_LE_ARGS rm $CONTAINER_DATA_NAME
 
   mv ${CERTS_DIR}chain_${NAME_ARR[$i]}.pem ${CERTS_DIR}chain.pem
   mv ${CERTS_DIR}cert_${NAME_ARR[$i]}.pem ${CERTS_DIR}cert.pem
   mv ${CERTS_DIR}key_${NAME_ARR[$i]}.pem ${CERTS_DIR}key.pem
   mv ${CERTS_DIR}fullchain_${NAME_ARR[$i]}.pem ${CERTS_DIR}fullchain.pem
 
-  docker $DOCKER_SIMP_LE_ARGS volume create $VOLUME_NAME
+  docker $DOCKER_SIMP_LE_ARGS volume create --name $VOLUME_NAME
   docker $DOCKER_SIMP_LE_ARGS run -itd --name $CONTAINER_DATA_NAME -v $VOLUME_NAME:/certs alpine:3.4 ash
 
   tar -cf - -C $CERTS_DIR . | docker $DOCKER_SIMP_LE_ARGS exec -i $CONTAINER_DATA_NAME tar -xf - -C /certs/
@@ -73,9 +73,9 @@ do
     sleep 60
   fi
 
-  docker $DOCKER_SIMP_LE_ARGS rm $SERVER_NAME
+  docker $DOCKER_SIMP_LE_ARGS rm -f $SERVER_NAME
+  docker $DOCKER_SIMP_LE_ARGS rm -f $CONTAINER_DATA_NAME
   docker $DOCKER_SIMP_LE_ARGS volume rm $VOLUME_NAME
-  docker $DOCKER_SIMP_LE_ARGS rm $CONTAINER_DATA_NAME
 done
 
 echo 'Finish'
