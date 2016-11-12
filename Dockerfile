@@ -9,6 +9,7 @@ ENV LISTEN_PORT=9002
 ENV SERVER_NAME=simp_le
 ENV DOCKER_SIMP_LE_ARGS=
 ENV DOCKER_RUN_SIMP_LE_ARGS=
+ENV AUTO_CONF_D=/etc/simp_le-auto.d
 
 COPY ["gen", "/etc/periodic/weekly/"]
 COPY ["start", "/bin/start"]

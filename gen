@@ -2,12 +2,12 @@
 
 echo 'Start'
 
-FILES=$(ls /etc/simp_le-auto.d/)
+FILES=$(ls $AUTO_CONF_D)
 
 COUNTER=0
 for i in $FILES
 do
-  readarray CONTENT < /etc/simp_le-auto.d/$i
+  readarray CONTENT < $AUTO_CONF_D/$i
   NAME_ARR[$COUNTER]=$(echo ${CONTENT[0]} | tr "," "\n" | head -1 )
   CONTAINER_ARR[$COUNTER]=$(echo ${CONTENT[1]} | tr "," " ")
 
