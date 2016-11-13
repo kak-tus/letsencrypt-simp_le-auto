@@ -69,6 +69,8 @@ do
       docker $DOCKER_SIMP_LE_ARGS restart ${CONTAINER_ARR[$i]}
     fi
 
+    openssl dhparam -out ${CERTS_DIR}dhparams_${NAME_ARR[$i]}.pem 2048
+
     # to limit request rate
     sleep 60
   fi
