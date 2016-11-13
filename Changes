@@ -1,3 +1,6 @@
+0.14 2016-11-12
+  - Generate DH key (dhparams)
+
 0.13 2016-11-12
   - Config dir from environment support
 
