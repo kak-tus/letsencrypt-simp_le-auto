@@ -47,8 +47,7 @@ do
 
   docker $DOCKER_SIMP_LE_ARGS run -v $VOLUME_NAME:/certs -p $LISTEN_PORT:80 \
     --name $SERVER_NAME $DOCKER_RUN_SIMP_LE_ARGS \
-    m3adow/letsencrypt-simp_le \
-    --tos_sha256 6373439b9f29d67a5cd4d18cbc7f264809342dbf21cb2ba2fc7588df987a6221 \
+    kaktuss/letsencrypt-simp_le \
     --email $EMAIL \
     -f account_key.json -f chain.pem -f cert.pem -f key.pem -f fullchain.pem \
     ${PARAM_ARR[$i]}
