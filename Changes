@@ -1,3 +1,6 @@
+0.16 2016-12-18
+  - Send STD from child to docker.
+
 0.15 2016-12-18
   - Correctly process stop signal.
 
