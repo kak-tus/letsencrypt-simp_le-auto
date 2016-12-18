@@ -1,5 +1,9 @@
 #!/bin/bash
 
 /etc/periodic/weekly/gen
-crond -f
 
+crond -f &
+child=$!
+
+trap "kill $child" SIGTERM
+wait "$child"

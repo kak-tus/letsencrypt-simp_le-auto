@@ -1,3 +1,6 @@
+0.15 2016-12-18
+  - Correctly process stop signal.
+
 0.14 2016-11-12
   - Generate DH key (dhparams)
 
