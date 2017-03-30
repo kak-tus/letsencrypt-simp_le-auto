@@ -1,3 +1,6 @@
+0.19 2017-13-30
+  - Renew docker, dockerfile.
+
 0.16 2016-12-18
   - Send STD from child to docker.
 

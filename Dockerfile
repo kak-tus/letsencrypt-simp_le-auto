@@ -1,6 +1,7 @@
-FROM docker:1.12.1
+FROM docker:17.03
 
-MAINTAINER Andrey Kuzmin "kak-tus@mail.ru"
+RUN \
+  apk add --no-cache bash
 
 ENV EMAIL=
 
@@ -11,12 +12,7 @@ ENV DOCKER_SIMP_LE_ARGS=
 ENV DOCKER_RUN_SIMP_LE_ARGS=
 ENV AUTO_CONF_D=/etc/simp_le-auto.d
 
-COPY ["gen", "/etc/periodic/weekly/"]
-COPY ["start", "/bin/start"]
+COPY gen /etc/periodic/weekly/gen
+COPY start /bin/start
 
-RUN apk add --update-cache bash \
-
-  && rm -rf /var/cache/apk/*
-
-ENTRYPOINT ["start"]
-
+ENTRYPOINT ["/bin/start"]
