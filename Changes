@@ -1,4 +1,7 @@
-0.19 2017-13-30
+0.20 2017-04-01
+  - Dir for updated certs.
+
+0.19 2017-03-30
   - Renew docker, dockerfile.
 
 0.16 2016-12-18

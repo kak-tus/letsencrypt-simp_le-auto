@@ -11,6 +11,7 @@ ENV SERVER_NAME=simp_le
 ENV DOCKER_SIMP_LE_ARGS=
 ENV DOCKER_RUN_SIMP_LE_ARGS=
 ENV AUTO_CONF_D=/etc/simp_le-auto.d
+ENV AUTO_UPDATED_DIR=/etc/simp_le-auto-updated
 
 COPY gen /etc/periodic/weekly/gen
 COPY start /bin/start

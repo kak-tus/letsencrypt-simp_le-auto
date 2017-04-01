@@ -26,6 +26,7 @@ VOLUME_NAME=$SERVER_NAME-vl
 CONTAINER_DATA_NAME=$SERVER_NAME-data
 
 mkdir -p $CERTS_DIR
+mkdir -p $AUTO_UPDATED_DIR
 
 for (( i=0; i<${#PARAM_ARR[@]}; i++ ))
 do
@@ -70,6 +71,12 @@ do
     fi
 
     openssl dhparam -out ${CERTS_DIR}dhparams_${NAME_ARR[$i]}.pem 2048
+
+    cp ${CERTS_DIR}chain_${NAME_ARR[$i]}.pem $AUTO_UPDATED_DIR
+    cp ${CERTS_DIR}cert_${NAME_ARR[$i]}.pem $AUTO_UPDATED_DIR
+    cp ${CERTS_DIR}key_${NAME_ARR[$i]}.pem $AUTO_UPDATED_DIR
+    cp ${CERTS_DIR}fullchain_${NAME_ARR[$i]}.pem $AUTO_UPDATED_DIR
+    cp ${CERTS_DIR}dhparams_${NAME_ARR[$i]}.pem $AUTO_UPDATED_DIR
 
     # to limit request rate
     sleep 60
